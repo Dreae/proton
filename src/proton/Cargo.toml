@@ -1,0 +1,17 @@
+[package]
+name = "proton"
+version = "0.1.0"
+authors = ["Dreae <dreae@dreae.onl>"]
+
+[[bin]]
+name = "proton"
+path = "src/main.rs"
+
+[dependencies]
+
+
+[dependencies.proton-client]
+path = "../client"
+
+[dependencies.proton-shared]
+path = "../shared"
