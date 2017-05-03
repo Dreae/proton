@@ -1,8 +1,8 @@
 extern crate proton_client;
 
-use proton_client::engine::Engine;
+use proton_client::engine;
 
 fn main() {
-    let engine = Engine::new();
+    let engine = engine::create_engine();
     engine.start();
 }
