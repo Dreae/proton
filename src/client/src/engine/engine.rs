@@ -25,7 +25,7 @@ impl Engine {
 }
 
 impl GameEngine for Engine {
-  fn on_game_frame(&self) {
+  fn on_game_frame(&self, delta_t: f64) {
     let mut frame = self.window.display.draw();
     frame.clear_color(0.0, 0.0, 1.0, 1.0);
     frame.finish().unwrap();

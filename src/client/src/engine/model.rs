@@ -4,27 +4,24 @@ use glium;
 #[derive(Copy, Clone)]
 pub struct Vertex {
   position: [f32; 3],
-}
-implement_vertex!(Vertex, position);
-
-#[derive(Copy, Clone)]
-pub struct Normal {
   normal: [f32; 3],
+  texcoord: [f32; 2],
 }
-implement_vertex!(Normal, normal);
+implement_vertex!(Vertex, position, normal, texcoord);
+
+pub struct Mesh {
+  vertices: Vec<Vertex>,
+  indices: Vec<u16>,
+}
 
 pub struct Model {
-  vertices: glium::VertexBuffer<Vertex>,
-  normals: glium::VertexBuffer<Normal>,
-  indices: glium::IndexBuffer<u16>,
+  meshes: Vec<Mesh>,
 }
 
 impl Model {
-  pub fn new(facade: &GlutinFacade, vertices: &[Vertex], normals: &[Normal], indices: &[u16]) -> Model {
+  pub fn new(meshes: Vec<Mesh>) -> Model {
     Model {
-      vertices: glium::VertexBuffer::new(facade, vertices).unwrap(),
-      normals: glium::VertexBuffer::new(facade, normals).unwrap(),
-      indices: glium::IndexBuffer::new(facade, glium::index::PrimitiveType::TrianglesList, indices).unwrap(),
+      meshes: meshes,
     }
   }
 }
