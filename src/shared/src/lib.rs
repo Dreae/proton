@@ -1,3 +1,3 @@
 extern crate time;
 
-pub mod teir0;
+pub mod tier0;

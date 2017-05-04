@@ -1,7 +1,11 @@
 [package]
-name = "proton-shared"
+name = "proton-derive"
 version = "0.1.0"
 authors = ["Dreae <dreae@dreae.onl>"]
 
 [dependencies]
-time = "0.1.37"
+syn = "0.11.11"
+quote = "0.3.10"
+
+[lib]
+proc-macro = true

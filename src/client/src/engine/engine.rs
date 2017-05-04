@@ -2,7 +2,7 @@ use glium::Surface;
 use glium::glutin::Event;
 use engine::window::Window;
 use std::process::exit;
-use proton_shared::teir0::GameEngine;
+use proton_shared::tier0::GameEngine;
 
 pub struct Engine {
   window: Window,

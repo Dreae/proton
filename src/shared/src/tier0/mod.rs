@@ -3,5 +3,5 @@ mod engine;
 mod world;
 
 pub use self::engine::{EngineShared, GameEngine};
-pub use self::base_entity::BaseEntity;
+pub use self::base_entity::{BaseEntity, Entity};
 pub use self::world::World;

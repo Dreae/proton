@@ -7,6 +7,10 @@ authors = ["Dreae <dreae@dreae.onl>"]
 [dependencies]
 glium = "0.16.0"
 image = "0.13.0"
+assimp = "0.2.0"
 
 [dependencies.proton-shared]
 path = "../shared"
+
+[dependencies.proton-derive]
+path = "../derive"
