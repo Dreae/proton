@@ -1,11 +1,10 @@
-use glium::Surface;
 use glium::glutin::Event;
 use engine::window::Window;
 use std::process::exit;
 use proton_shared::tier0::GameEngine;
 
 pub struct Engine {
-  window: Window,
+  pub window: Window,
 }
 
 impl Engine {
@@ -25,13 +24,15 @@ impl Engine {
 }
 
 impl GameEngine for Engine {
-  fn on_game_frame(&self, delta_t: f64) {
-    let mut frame = self.window.display.draw();
-    frame.clear_color(0.0, 0.0, 1.0, 1.0);
-    frame.finish().unwrap();
+  fn on_start(&mut self) {
+    self.window.load_shaders();
+  }
 
+  fn on_game_frame(&self, delta_t: f64) {
     for ev in self.window.display.poll_events() {
         self.dispatch_event(ev);
     }
+
+    self.window.render_frame();
   }
 }

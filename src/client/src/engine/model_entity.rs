@@ -1,6 +1,5 @@
-use engine::Model;
-use engine::load_model;
-use proton_shared::tier0::BaseEntity;
+use engine::{Model, load_model, Engine};
+use proton_shared::tier0::{BaseEntity, EngineShared};
 
 #[derive(Entity)]
 pub struct ModelEntity {
@@ -9,10 +8,22 @@ pub struct ModelEntity {
 }
 
 impl ModelEntity {
-  pub fn new(model: &str) -> ModelEntity {
-    ModelEntity {
+  pub fn new(model: &str, engine: &mut EngineShared<Engine>) -> ModelEntity {
+    let mut ent = ModelEntity {
       model: load_model(model),
       base_entity: BaseEntity::new(),
-    }
+    };
+
+    ent.cache_model(&mut engine.engine_impl);
+
+    ent
+  }
+
+  pub fn cache_model(&mut self, engine: &mut Engine) {
+    self.model.cache(&mut engine.window.display);
+  }
+
+  pub fn on_spawn_post(&mut self) {
+    
   }
 }

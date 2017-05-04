@@ -3,6 +3,7 @@ mod engine;
 mod model;
 mod model_loader;
 mod model_entity;
+mod shaders;
 
 pub use self::window::Window;
 pub use self::engine::Engine;
