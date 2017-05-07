@@ -5,6 +5,7 @@ use glium::Surface;
 
 use engine::shaders::*;
 use engine::Vertex;
+use engine::ModelEntity;
 
 pub struct Window {
   pub display: GlutinFacade,
@@ -16,6 +17,7 @@ impl Window {
       let display = glium::glutin::WindowBuilder::new()
         .with_dimensions(1024, 768)
         .with_title(format!("Hello world"))
+        .with_depth_buffer(24)
         .build_glium()
         .unwrap();
 
@@ -31,27 +33,14 @@ impl Window {
 
     pub fn render_frame(&self) {
       let mut frame = self.display.draw();
-      frame.clear_color(0.0, 0.0, 1.0, 1.0);
-      let vertex1 = Vertex {
-        position: [-0.5, -0.5, 0.0],
-        normal: [0.0, 0.0, 0.0],
-        texcoord: [0.0, 0.0],
-      };
-      let vertex2 = Vertex {
-        position: [0.0, 0.5, 0.0],
-        normal: [0.0, 0.0, 0.0],
-        texcoord: [0.0, 0.0],
-      };
-      let vertex3 = Vertex {
-        position: [0.5, -0.25, 0.0],
-        normal: [0.0, 0.0, 0.0],
-        texcoord: [0.0, 0.0],
-      };
-      let shape = vec![vertex1, vertex2, vertex3];
-      let vertex_buffer = glium::VertexBuffer::new(&self.display, &shape).unwrap();
-      let indices = glium::index::NoIndices(glium::index::PrimitiveType::TrianglesList);
-      frame.draw(&vertex_buffer, &indices, &self.geometry_program.as_ref().unwrap(), &glium::uniforms::EmptyUniforms, &Default::default()).unwrap();
+      frame.clear_color_and_depth((0.0, 0.0, 1.0, 1.0), 1.0);
+      let mut ent = ModelEntity::new("models/nanosuit.obj", &self.display);
+      ent.draw(&mut frame, self.geometry_program.as_ref().unwrap());
 
       frame.finish().unwrap();
     }
+}
+
+pub trait Drawable {
+  fn draw(&self, surface: &mut glium::Frame, active_shaders: &glium::Program);
 }

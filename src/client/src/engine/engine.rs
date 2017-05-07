@@ -3,14 +3,14 @@ use engine::window::Window;
 use std::process::exit;
 use proton_shared::tier0::GameEngine;
 
-pub struct Engine {
+pub struct ClientEngine {
   pub window: Window,
 }
 
-impl Engine {
-    pub fn new() -> Engine {
+impl ClientEngine {
+    pub fn new() -> ClientEngine {
       let window = Window::new();
-      Engine {
+      ClientEngine {
         window: window,
       }
     }
@@ -23,7 +23,7 @@ impl Engine {
     }
 }
 
-impl GameEngine for Engine {
+impl GameEngine for ClientEngine {
   fn on_start(&mut self) {
     self.window.load_shaders();
   }

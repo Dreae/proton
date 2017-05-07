@@ -5,3 +5,4 @@ authors = ["Dreae <dreae@dreae.onl>"]
 
 [dependencies]
 time = "0.1.37"
+cgmath = "0.14.1"

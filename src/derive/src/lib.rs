@@ -23,8 +23,16 @@ fn impl_entity(ast: &syn::MacroInput) -> quote::Tokens {
         self.base_entity.set_pos(pos);
       }
 
+      fn get_pos(&self) -> [f32; 3] {
+        self.base_entity.get_pos()
+      }
+
       fn set_scale(&mut self, scale: [f32; 3]) {
         self.base_entity.set_scale(scale);
+      }
+      
+      fn get_scale(&self) -> [f32; 3] {
+        self.base_entity.get_scale()
       }
 
       fn _on_spawn_post(&mut self) {

@@ -1,5 +1,11 @@
 use glium::backend::glutin_backend::GlutinFacade;
+use glium::Surface;
 use glium;
+
+use cgmath::SquareMatrix;
+use cgmath;
+
+use engine::window::Drawable;
 
 #[derive(Copy, Clone, Debug)]
 pub struct Vertex {
@@ -29,7 +35,7 @@ impl Mesh {
   }
 
   pub fn is_cached(&self) -> bool {
-    return self.cached;
+    self.cached
   }
 
   pub fn cache(&mut self, facade: &GlutinFacade) {
@@ -39,6 +45,31 @@ impl Mesh {
     }
 
     self.cached = true;
+  }
+}
+
+impl Drawable for Mesh {
+  fn draw(&self, surface: &mut glium::Frame, active_shaders: &glium::Program) {
+    if !self.is_cached() {
+      panic!("FATAL: Tried to draw mesh that wasn't cached");
+    }
+    // TODO: Obviously this stuff can't live here.
+    let mut position = cgmath::Matrix4::identity();
+    let uniforms = uniform! {
+      model_pos: Into::<[[f32; 4]; 4]>::into(position),
+      u_light: [-1.0, 0.4, 0.9f32],
+    };
+
+    let params = glium::DrawParameters {
+        depth: glium::Depth {
+            test: glium::draw_parameters::DepthTest::IfLess,
+            write: true,
+            .. Default::default()
+        },
+        .. Default::default()
+    };
+
+    surface.draw(self.vertex_buffer.as_ref().unwrap(), self.index_buffer.as_ref().unwrap(), active_shaders, &uniforms, &params).unwrap();
   }
 }
 
@@ -53,9 +84,17 @@ impl Model {
     }
   }
 
-  pub fn cache(&mut self, facade: &mut GlutinFacade) {
-    self.meshes.iter_mut().map(|mut mesh| {
+  pub fn cache(&mut self, facade: &GlutinFacade) {
+    for mut mesh in &mut self.meshes {
       mesh.cache(facade);
-    });
+    }
+  }
+}
+
+impl Drawable for Model {
+  fn draw(&self, surface: &mut glium::Frame, active_shaders: &glium::Program) {
+    for mesh in &self.meshes {
+      mesh.draw(surface, active_shaders);
+    }
   }
 }
