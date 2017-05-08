@@ -6,3 +6,6 @@ authors = ["Dreae <dreae@dreae.onl>"]
 [dependencies]
 time = "0.1.37"
 cgmath = "0.14.1"
+
+[dependencies.proton-derive]
+path = "../derive"

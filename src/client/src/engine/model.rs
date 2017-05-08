@@ -46,17 +46,15 @@ impl Mesh {
 
     self.cached = true;
   }
-}
 
-impl Drawable for Mesh {
-  fn draw(&self, surface: &mut glium::Frame, active_shaders: &glium::Program) {
+  pub fn draw(&self, surface: &mut glium::Frame, active_shaders: &glium::Program, position: [f32; 3]) {
     if !self.is_cached() {
       panic!("FATAL: Tried to draw mesh that wasn't cached");
     }
     // TODO: Obviously this stuff can't live here.
-    let mut position = cgmath::Matrix4::identity();
+    let mut transform = cgmath::Matrix4::from_translation(position.into());
     let uniforms = uniform! {
-      model_pos: Into::<[[f32; 4]; 4]>::into(position),
+      model_pos: Into::<[[f32; 4]; 4]>::into(transform),
       u_light: [-1.0, 0.4, 0.9f32],
     };
 
@@ -89,12 +87,10 @@ impl Model {
       mesh.cache(facade);
     }
   }
-}
 
-impl Drawable for Model {
-  fn draw(&self, surface: &mut glium::Frame, active_shaders: &glium::Program) {
+  pub fn draw(&self, surface: &mut glium::Frame, active_shaders: &glium::Program, position: [f32; 3]) {
     for mesh in &self.meshes {
-      mesh.draw(surface, active_shaders);
+      mesh.draw(surface, active_shaders, position);
     }
   }
 }

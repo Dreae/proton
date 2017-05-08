@@ -7,6 +7,8 @@ use engine::shaders::*;
 use engine::Vertex;
 use engine::ModelEntity;
 
+use proton_shared::tier0::Entity;
+
 pub struct Window {
   pub display: GlutinFacade,
   geometry_program: Option<glium::Program>,

@@ -34,6 +34,6 @@ impl ModelEntity {
 
 impl Drawable for ModelEntity {
   fn draw(&self, surface: &mut glium::Frame, active_shaders: &glium::Program) {
-    self.model.draw(surface, active_shaders);
+    self.model.draw(surface, active_shaders, self.base_entity.get_pos());
   }
 }
