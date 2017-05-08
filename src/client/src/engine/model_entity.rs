@@ -1,5 +1,5 @@
-use engine::{Model, load_model, ClientEngine};
-use proton_shared::tier0::{BaseEntity, EngineShared};
+use engine::{Model, load_model};
+use proton_shared::tier0::BaseEntity;
 use engine::window::Drawable;
 
 use glium::backend::glutin_backend::GlutinFacade;

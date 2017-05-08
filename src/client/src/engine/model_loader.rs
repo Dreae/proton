@@ -15,7 +15,7 @@ pub fn load_model(path: &str) -> Model {
     let verts: Vec<Vertex> = mesh.vertex_iter().zip(mesh.normal_iter()).map(|(v, n)| {
       Vertex {
         position: v.into(),
-        normal: v.into(),
+        normal: n.into(),
         texcoord: [0.0, 0.0],
       }
     }).collect();

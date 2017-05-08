@@ -2,10 +2,7 @@ use glium::backend::glutin_backend::GlutinFacade;
 use glium::Surface;
 use glium;
 
-use cgmath::SquareMatrix;
 use cgmath;
-
-use engine::window::Drawable;
 
 #[derive(Copy, Clone, Debug)]
 pub struct Vertex {
@@ -52,7 +49,7 @@ impl Mesh {
       panic!("FATAL: Tried to draw mesh that wasn't cached");
     }
     // TODO: Obviously this stuff can't live here.
-    let mut transform = cgmath::Matrix4::from_translation(position.into());
+    let transform = cgmath::Matrix4::from_translation(position.into());
     let uniforms = uniform! {
       model_pos: Into::<[[f32; 4]; 4]>::into(transform),
       u_light: [-1.0, 0.4, 0.9f32],

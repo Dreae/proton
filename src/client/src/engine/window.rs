@@ -4,10 +4,7 @@ use glium::backend::glutin_backend::GlutinFacade;
 use glium::Surface;
 
 use engine::shaders::*;
-use engine::Vertex;
 use engine::ModelEntity;
-
-use proton_shared::tier0::Entity;
 
 pub struct Window {
   pub display: GlutinFacade,
@@ -36,7 +33,7 @@ impl Window {
     pub fn render_frame(&self) {
       let mut frame = self.display.draw();
       frame.clear_color_and_depth((0.0, 0.0, 1.0, 1.0), 1.0);
-      let mut ent = ModelEntity::new("models/nanosuit.obj", &self.display);
+      let ent = ModelEntity::new("models/nanosuit.obj", &self.display);
       ent.draw(&mut frame, self.geometry_program.as_ref().unwrap());
 
       frame.finish().unwrap();
