@@ -3,7 +3,7 @@ use glium::Surface;
 use glium;
 
 use cgmath;
-use engine::window::DrawTarget;
+use tier0::DrawTarget;
 
 #[derive(Copy, Clone, Debug)]
 pub struct Vertex {

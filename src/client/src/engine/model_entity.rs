@@ -1,20 +1,20 @@
-use engine::{Model, load_model};
-use proton_shared::tier0::BaseEntity;
-use engine::window::{Drawable, DrawTarget};
+use proton_shared::tier0::Model;
+use proton_shared::tier0::{BaseEntity, ModelLoader};
+use proton_shared::tier0::{Drawable, DrawTarget};
 
 use glium::backend::glutin_backend::GlutinFacade;
 use glium;
 
 #[derive(Entity)]
 pub struct ModelEntity {
-  model: Model,
+  model: *mut Model,
   base_entity: BaseEntity,
 }
 
 impl ModelEntity {
-  pub fn new(model: &str, facade: &GlutinFacade) -> ModelEntity {
+  pub fn new(model: &str, facade: &GlutinFacade, model_loader: &mut ModelLoader) -> ModelEntity {
     let mut ent = ModelEntity {
-      model: load_model(model),
+      model: model_loader.load_model(model),
       base_entity: BaseEntity::new(),
     };
 
@@ -24,7 +24,8 @@ impl ModelEntity {
   }
 
   pub fn cache_model(&mut self, facade: &GlutinFacade) {
-    self.model.cache(facade);
+    let model = unsafe { &mut *self.model };
+    model.cache(facade);
   }
 
   pub fn on_spawn_post(&mut self) {
@@ -34,6 +35,7 @@ impl ModelEntity {
 
 impl Drawable for ModelEntity {
   fn draw(&self, surface: &mut DrawTarget) {
-    self.model.draw(surface, &self.base_entity.get_pos(), &self.base_entity.get_scale());
+    let model = unsafe { &mut *self.model };
+    model.draw(surface, &self.base_entity.get_pos(), &self.base_entity.get_scale());
   }
 }

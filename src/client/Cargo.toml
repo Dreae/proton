@@ -7,7 +7,6 @@ authors = ["Dreae <dreae@dreae.onl>"]
 [dependencies]
 glium = "0.16.0"
 image = "0.13.0"
-assimp = "0.2.0"
 cgmath = "0.14.1"
 lazy_static = "0.2.8"
 

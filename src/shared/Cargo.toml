@@ -6,6 +6,8 @@ authors = ["Dreae <dreae@dreae.onl>"]
 [dependencies]
 time = "0.1.37"
 cgmath = "0.14.1"
+glium = "0.16.0"
+assimp = "0.2.0"
 
 [dependencies.proton-derive]
 path = "../derive"
