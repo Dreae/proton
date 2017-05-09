@@ -7,7 +7,7 @@ pub struct World {
 }
 
 impl World {
-  fn create_entity<T>(&mut self) -> Box<T> where T: Spawnable + Entity + 'static {
+  fn create_entity<T>(&mut self) -> *mut T where T: Spawnable + Entity + 'static {
     let mut ent_box = Box::new(T::create());
     let ent = Box::into_raw(ent_box);
     if let Some(idx) = self.free_ents.pop() {
@@ -17,8 +17,15 @@ impl World {
       self.num_ents = self.num_ents + 1;
     }
 
+    ent
+  }
+
+  fn destroy_entity(&mut self, ent_id: usize) {
+    let ent = self.entities[ent_id];
+    self.free_ents.push(ent_id);
+
     unsafe {
-      Box::from_raw(ent)
+      Box::from_raw(ent);
     }
   }
 }

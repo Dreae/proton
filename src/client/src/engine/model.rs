@@ -3,6 +3,7 @@ use glium::Surface;
 use glium;
 
 use cgmath;
+use engine::window::DrawTarget;
 
 #[derive(Copy, Clone, Debug)]
 pub struct Vertex {
@@ -44,27 +45,16 @@ impl Mesh {
     self.cached = true;
   }
 
-  pub fn draw(&self, surface: &mut glium::Frame, active_shaders: &glium::Program, position: [f32; 3]) {
+  pub fn draw(&self, surface: &mut DrawTarget, position: &[f32; 3], scale: &[f32; 3]) {
     if !self.is_cached() {
       panic!("FATAL: Tried to draw mesh that wasn't cached");
     }
     // TODO: Obviously this stuff can't live here.
-    let transform = cgmath::Matrix4::from_translation(position.into());
-    let uniforms = uniform! {
-      model_pos: Into::<[[f32; 4]; 4]>::into(transform),
-      u_light: [-1.0, 0.4, 0.9f32],
-    };
+    let pos = cgmath::Matrix4::from_translation((*position).into());
+    let scale = cgmath::Matrix4::from_nonuniform_scale(scale[0], scale[1], scale[2]);
+    let transform = pos * scale;
 
-    let params = glium::DrawParameters {
-        depth: glium::Depth {
-            test: glium::draw_parameters::DepthTest::IfLess,
-            write: true,
-            .. Default::default()
-        },
-        .. Default::default()
-    };
-
-    surface.draw(self.vertex_buffer.as_ref().unwrap(), self.index_buffer.as_ref().unwrap(), active_shaders, &uniforms, &params).unwrap();
+    surface.draw(self.vertex_buffer.as_ref().unwrap(), self.index_buffer.as_ref().unwrap(), &transform);
   }
 }
 
@@ -85,9 +75,9 @@ impl Model {
     }
   }
 
-  pub fn draw(&self, surface: &mut glium::Frame, active_shaders: &glium::Program, position: [f32; 3]) {
+  pub fn draw(&self, surface: &mut DrawTarget, position: &[f32; 3], scale: &[f32; 3]) {
     for mesh in &self.meshes {
-      mesh.draw(surface, active_shaders, position);
+      mesh.draw(surface, position, scale);
     }
   }
 }

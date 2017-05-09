@@ -1,6 +1,6 @@
 use engine::{Model, load_model};
 use proton_shared::tier0::BaseEntity;
-use engine::window::Drawable;
+use engine::window::{Drawable, DrawTarget};
 
 use glium::backend::glutin_backend::GlutinFacade;
 use glium;
@@ -33,7 +33,7 @@ impl ModelEntity {
 }
 
 impl Drawable for ModelEntity {
-  fn draw(&self, surface: &mut glium::Frame, active_shaders: &glium::Program) {
-    self.model.draw(surface, active_shaders, self.base_entity.get_pos());
+  fn draw(&self, surface: &mut DrawTarget) {
+    self.model.draw(surface, &self.base_entity.get_pos(), &self.base_entity.get_scale());
   }
 }

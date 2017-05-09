@@ -1,5 +1,7 @@
 use assimp;
 use engine::{Model, Mesh, Vertex};
+use std::collections::HashMap;
+use std::sync::RwLock;
 
 pub fn load_model(path: &str) -> Model {
   let mut importer = assimp::Importer::new();
